@@ -1,0 +1,12 @@
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/c_cpp_properties.json
+.vscode/settings.json
+
+# macOS/Xcode debug symbols
+*.dSYM/
+
+# Study files
+study/

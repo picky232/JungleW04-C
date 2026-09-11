@@ -11,22 +11,23 @@ Purpose: Implementing the required functions for Question 1 */
 
 //////////////////////////////////////////////////////////////////////////////////
 
-typedef struct _listnode{
-	int item;
-	struct _listnode *next;
-} ListNode;			// You should not change the definition of ListNode
+typedef struct _listnode{ // 구조체 선언
+	int item; // 노드의 값
+	struct _listnode *next; // *next에는 같은 구조체 주소가 들어갈거라고 알려줌
+} ListNode; // 원래는 사용시 struct _listnode *p 라고 써야하는데 별명을 붙여 ListNode *p로 사용가능
+// You should not change the definition of ListNode
 
 typedef struct _linkedlist{
-	int size;
-	ListNode *head;
+	int size; // 현재 연결리스트에 노드 몇개인지 저장
+	ListNode *head; // 첫번째 노드의 포인터 저장
 } LinkedList;			// You should not change the definition of LinkedList
 
 
 ///////////////////////// function prototypes ////////////////////////////////////
 
 //You should not change the prototype of this function
+// 함수에서 반환할 자료형, 들어갈 매개변수 미리 정해둠
 int insertSortedLL(LinkedList *ll, int item);
-
 void printList(LinkedList *ll);
 void removeAllItems(LinkedList *ll);
 ListNode *findNode(LinkedList *ll, int index);
@@ -38,8 +39,8 @@ int removeNode(LinkedList *ll, int index);
 
 int main()
 {
-	LinkedList ll;
-	int c, i, j;
+	LinkedList ll; // LinkedList 선언
+	int c, i, j; // c : 동작명령, i : value값, j : 인덱스 값
 	c = 1;
 
 	//Initialize the linked list 1 as an empty linked list
@@ -90,6 +91,7 @@ int main()
 
 int insertSortedLL(LinkedList *ll, int item)
 {
+	
 	/* add your code here */
 }
 
