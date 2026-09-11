@@ -91,30 +91,30 @@ int main()
 
 int insertSortedLL(LinkedList *ll, int item)
 {
-	ListNode *temp;
-	temp = ll->head; // head 노드 지정
+	ListNode *temp; // ListNode의 주소를 저장할 수 있는 포인터 선언
+	temp = ll->head; // 포인터temp에 LinkedList head 노드가 가진 주소값 저장
 	int idx = 0;
-	int check;
+	int check; // 현재 노드 값 확인용
 	while (temp != NULL)
 	{
 		check = temp -> item;
-		if(check == item){
+		if(check == item){ // 현재노드랑 아이템이랑 같으면
 			break;
 		}
 		if(check > item){ // 현재 노드값이 입력값보다 클떄 -> 노드 생성 및 연결, 인덱스 위치 반환
 			break;
 		}
 		else{
-			temp = temp->next;
-			idx++;
+			temp = temp->next; // temp의 현재노드의 next가 가리키는 다음노드의 주소 저장
+			idx++; // 인덱스 번호 증가
 		}
 		/* code */
 	}
-	if(check==item){
+	if(check==item){ // 현재 노드랑 아이템이랑 같음
 		return -1;
 	}
-	insertNode(ll, idx, item);
-	return idx;
+	insertNode(ll, idx, item); // 노드 삽입
+	return idx; // 인덱스값 반환
 	/* add your code here */
 }
 
