@@ -44,8 +44,8 @@ int main()
 	c = 1;
 
 	//Initialize the linked list 1 as an empty linked list
-	ll.head = NULL;
-	ll.size = 0;
+	ll.head = NULL; // 리스트 노드가 없는 상태
+	ll.size = 0; // 링크드 리스트 사이즈 초기값 0
 
 	printf("1: Insert an integer to the sorted linked list:\n");
 	printf("2: Print the index of the most recent input value:\n");
@@ -72,7 +72,7 @@ int main()
 		case 3:
 			printf("The resulting sorted linked list is: ");
 			printList(&ll);
-			removeAllItems(&ll);
+			//removeAllItems(&ll);
 			break;
 		case 0:
 			removeAllItems(&ll);
@@ -91,7 +91,30 @@ int main()
 
 int insertSortedLL(LinkedList *ll, int item)
 {
-	
+	ListNode *temp;
+	temp = ll->head; // head 노드 지정
+	int idx = 0;
+	int check;
+	while (temp != NULL)
+	{
+		check = temp -> item;
+		if(check == item){
+			break;
+		}
+		if(check > item){ // 현재 노드값이 입력값보다 클떄 -> 노드 생성 및 연결, 인덱스 위치 반환
+			break;
+		}
+		else{
+			temp = temp->next;
+			idx++;
+		}
+		/* code */
+	}
+	if(check==item){
+		return -1;
+	}
+	insertNode(ll, idx, item);
+	return idx;
 	/* add your code here */
 }
 
