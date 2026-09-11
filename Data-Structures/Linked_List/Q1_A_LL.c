@@ -91,7 +91,7 @@ int main()
 
 int insertSortedLL(LinkedList *ll, int item)
 {
-	ListNode *temp; // ListNode의 주소를 저장할 수 있는 포인터 선언
+	ListNode *temp; // ListNode의 주소를 저장할 수 있는 포인터 선언 - 연결리스트의 헤드가 포인터기 떄문에 포인터로 써야함
 	temp = ll->head; // 포인터temp에 LinkedList head 노드가 가진 주소값 저장
 	int idx = 0;
 	int check; // 현재 노드 값 확인용

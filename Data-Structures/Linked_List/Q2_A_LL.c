@@ -9,6 +9,8 @@ Purpose: Implementing the required functions for Question 2 */
 #include <stdio.h>
 #include <stdlib.h>
 
+
+
 //////////////////////////////////////////////////////////////////////////////////
 
 typedef struct _listnode
@@ -104,6 +106,27 @@ int main()
 void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
 {
     /* add your code here */
+	ListNode *cur1, *cur2, *temp, *flN;
+	cur1 = ll1->head; // 헤드 노드 포인터 ll1
+	cur2 = ll2->head; // 헤드 노드 포인터 ll2
+	if(cur1==NULL || cur2==NULL){ // 둘중 하나라도 비었으면 시작 X
+		return;
+	}
+	while (cur1!=NULL)
+	{
+		if(cur2==NULL){ // ll2가 비었으면 그만
+			break;
+		}
+		flN = cur1->next; // cur1의 다음노드를 주소 저장
+		temp = cur2->next; // cur2노드의 다음노드 주소를 temp에 저장
+		cur2->next = flN; // cur2의 링크를 cur1의 다음 노드로 변경
+		cur1->next = cur2; // cur1의 링크를 cur2노드로 변경
+		cur1 = flN; // cur1의 주소 다음 cur1으로 변경
+		cur2 = temp; // cur2를 미리담아둔 temp주소로 변경
+		ll2->head = cur2; // ll2에 head를 다음 노드로 변경
+		/* code */
+	}
+	return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -114,7 +137,6 @@ void printList(LinkedList *ll){
 	if (ll == NULL)
 		return;
 	cur = ll->head;
-
 	if (cur == NULL)
 		printf("Empty");
 	while (cur != NULL)
