@@ -85,6 +85,7 @@ int main()
 //////////////////////////////////////////////////////////////////////////////////
 
 void moveOddItemsToBack(LinkedList *ll)
+// 알고리즘 : 가장앞에 위치한 값이 홀수인 노드를 기준으로 잡고 기준노드 뒤부터 순회하여 짝수를 기준노드 앞으로 이동함
 {
 	ListNode *cur, *ptr, *prev=NULL, *ptr_prev=NULL;
 	cur = ll->head;
@@ -108,24 +109,26 @@ void moveOddItemsToBack(LinkedList *ll)
 	prev = ptr;
 	while (cur != NULL)
 	{
-		ListNode *next_node = cur->next;
-		if(cur->item%2==0){
-			if(ptr_prev==NULL){
-				prev->next = cur->next;
-				cur->next = ptr;
-				ptr_prev = cur;
-				ll->head = ptr_prev;
+		ListNode *next_node = cur->next; // 다음 노드 미리 저장(순회하는 노드 위치 변경하면 next도 바뀜)
+		if(cur->item%2==0){ // 짝수일때
+			if(ptr_prev==NULL){ // ptr이 링크드 리스트의 헤드일때
+				prev->next = cur->next; // prev의 next 갱신 - 기준노드로
+				cur->next = ptr; // 현재 노드의 next 변경(ptr)로 - 기준노드 앞에 옮겼음
+				ptr_prev = cur; // 기준점 prev 갱신
+				ll->head = ptr_prev; // 링크드 리스트 헤드 갱신
 			}
-			else{
-				prev->next = cur->next;
-				cur->next = ptr;
-				ptr_prev->next = cur;
+			else{ // ptr이 헤드 아닐때
+				prev->next = cur->next; // 이전노드의 next 갱신
+				cur->next = ptr; // 현재노드의 next 갱신 - 기준노드로
+				ptr_prev->next = cur; // 기준노드의 이전노드 next 갱신
+				ptr_prev = cur; // * 기준점 prev 갱신
 			}
 		}
-		else{
-			prev = cur;
+		else{ // 홀수알때
+			prev = cur; // cur만 바뀜으로 prev도 이동
+			// cur이 짝수이면 이전노드는 바뀌지 않음 왜냐? cur이 빠지면 다음노드가 prev->next가 됨. 고로 바꿀 필요 없음
 		}
-		cur = next_node;
+		cur = next_node; // cur을 다음노드의 주소로 변경
 	}
 }
 
