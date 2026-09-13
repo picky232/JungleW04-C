@@ -86,64 +86,74 @@ int main()
 
 void moveOddItemsToBack(LinkedList *ll)
 {
-	//뻘짓 - 찾아서 기준점 앞에다가 하나씩 넣으려고함 
-	// ListNode *ptr, *ptr_prev, *cur, *prev;
-	// ptr_prev = NULL, prev = NULL; // 기준점 노드의 이전 노드, 현재 노드의 이전 노드
-	// ptr = ll->head; // 기준점이 되는 노드
-	// cur = ll->head; // 순회용 현재 노드
-	// if(ptr==NULL || cur==NULL){ // 링크드 리스트안이 비었을 경우 - 예외처리1
-	// 	return;
-	// }
-	// while (ptr!=NULL) // 기준점 노드 구하기 기준노드의 Item이 홀수면 중단 / 짝수면 계속 반복
-	// {
-	// 	if(ptr->item%2==1){
-	// 		break;
-	// 	}
-	// 	ptr_prev = ptr;
-	// 	ptr = ptr->next;
-	// }
-	// if(ptr!=NULL && ptr->item%2==0){
-	// 	return;
-	// }
-	// while (cur!=NULL)
-	// {
-	// 	if(cur->item%2==0){ // 순서 변경 로직 - 현재 노드의 item이 짝수이면
-	// 		if(ptr_prev==NULL){ // 기준점이 맨앞
-	// 			prev->next = cur->next; // cur의 이전노드를 cur 다음 노드로 연결
-	// 			cur->next = ptr; // cur의 next 포인터를 기준 노드 주소로 변경
-	// 			ll->head = cur; // 헤더 변경
-	// 			ptr_prev = cur; // 기준 노드의 이전노드 변경(추가했으니까)
-	// 			cur = ptr; // 현재노드를 기준점으로 이동(기준점앞으로 이동했으니까 기준점 뒤부터 확인하도록)
-	// 		}else{ // 기준점이 맨앞이 아님
-	// 			prev->next = cur->next; // cur 이전 노드를 cur 다음노드랑 연결
-	// 			cur->next = ptr; // cur의 포인터를 기준노드로 변경
-	// 			ptr_prev->next = cur; // 기준노드의 이전노드의 포인터를 현재노드로 변경
-	// 			cur = ptr; // 현재 노드를 기준점으로 이동
-	// 		}
-	// 	}
-	// 	prev = cur;
-	// 	cur = cur->next;
-	// 	/* code */
-	// }
-	// return ;
-
-	// 함수 사용으로 구현하기
-	ListNode *cur, *next;
+	ListNode *cur, *ptr, *prev=NULL, *ptr_prev=NULL;
 	cur = ll->head;
-	int idx = 0;
-	while (cur!=NULL)
-	{
-		next = cur->next;
-		if(cur->item%2==1){
-			// 홀수면 맨뒤에 삽입 (삭제, 삽입 함수 사용)
-			insertNode(ll, ll->size, cur->item);
-			removeNode(ll, idx);
-		}
-		cur = next;
-		idx++;
+	ptr = ll->head;
+	if(ll->head == NULL || ll->size == 0){
+		return;
 	}
-	
+
+	while (ptr != NULL)
+	{
+		if(ptr->item%2==1){
+			break;
+		}
+		ptr_prev = ptr;
+		ptr = ptr->next;
+	}
+	if(ptr==NULL){
+		return ;
+	}
+	cur = ptr->next;
+	prev = ptr;
+	while (cur != NULL)
+	{
+		ListNode *next_node = cur->next;
+		if(cur->item%2==0){
+			if(ptr_prev==NULL){
+				prev->next = cur->next;
+				cur->next = ptr;
+				ptr_prev = cur;
+				ll->head = ptr_prev;
+			}
+			else{
+				prev->next = cur->next;
+				cur->next = ptr;
+				ptr_prev->next = cur;
+			}
+		}
+		else{
+			prev = cur;
+		}
+		cur = next_node;
+	}
 }
+
+// 	// 함수 사용으로 구현하기
+// void moveOddItemsToBack(LinkedList *ll)
+// {
+// 	ListNode *cur, *next;
+// 	int idx = 0;
+// 	int ori_size;
+// 	int i;
+// 	// 예외 처리
+// 	if(ll->head == NULL || ll->size==0){ 
+// 		return;
+// 	}
+// 	// for문으로 사용하면 굳이 마지막까지 순회하지 않고 기존의 배열 크기만큼만 돌면 됨
+// 	ori_size = ll->size; // 원래 링크드 리스트 크기
+// 	cur = ll->head; // 순회할 노드
+// 	for(i=0; i<ori_size; i++){
+// 		next = cur->next; // 현재노드의 다음노드 주소를 미리 담아둠(삭제하면 사라짐)
+// 		if(cur->item%2==1){
+// 			insertNode(ll, ll->size, cur->item); // 현재 노드값 맨 뒤에 추가
+// 			removeNode(ll, idx); // 현재 노드 삭제
+// 			idx--; // 노드가 사라졌음으로 idx값 현재노드를 기점으로 뒤에까지 다 -1해야함으로
+// 		}
+// 		cur = next; // 미리 담아둔 다음노드 주소를 cur에 넣고 다시 순회
+// 		idx++; // 인덱스 값 증가
+// 	}
+// }
 
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -165,38 +175,41 @@ void printList(LinkedList *ll){
 }
 
 
-void removeAllItems(LinkedList *ll)
+void removeAllItems(LinkedList *ll) // 전체 삭제
 {
 	ListNode *cur = ll->head;
 	ListNode *tmp;
 
 	while (cur != NULL){
-		tmp = cur->next;
-		free(cur);
-		cur = tmp;
+		tmp = cur->next; // free하고 나면 재지정 못하니까 미리 다음 노드 주소 담기
+		free(cur); // 할당된거 풀어주기
+		cur = tmp; // 옮기기
 	}
-	ll->head = NULL;
-	ll->size = 0;
+	// 링크드 리스트를 빈상태로 초기화
+	ll->head = NULL; // 헤드 노드를 NULL로 변경
+	ll->size = 0; // 사이즈 초기화
 }
 
-
+// 노드의 주소를 찾아서 반환
 ListNode *findNode(LinkedList *ll, int index){
 
-	ListNode *temp;
+	ListNode *temp; // temp 포인터 공간에 listNode담겠다.
 
+	// 매개변수의 값 예외처리
 	if (ll == NULL || index < 0 || index >= ll->size)
 		return NULL;
 
-	temp = ll->head;
+	temp = ll->head; // 초기값 설정
 
-	if (temp == NULL || index < 0)
+	if (temp == NULL || index < 0) // 배열이 빈배열일때
 		return NULL;
 
-	while (index > 0){
-		temp = temp->next;
-		if (temp == NULL)
+	// 원하는 노드 위치 찾기
+	while (index > 0){ // index값이 0보다 작으면 중단
+		temp = temp->next; // 노드 순회
+		if (temp == NULL) // 노드가 없으면
 			return NULL;
-		index--;
+		index--; // index값 감소 (while 종료조건)
 	}
 
 	return temp;
@@ -210,11 +223,12 @@ int insertNode(LinkedList *ll, int index, int value){
 		return -1;
 
 	// If empty list or inserting first node, need to update head pointer
+	// 링크드 리스트가 비었을때 or 맨 앞에 원소 삽입할때 추가하기
 	if (ll->head == NULL || index == 0){
-		cur = ll->head;
-		ll->head = malloc(sizeof(ListNode));
-		ll->head->item = value;
-		ll->head->next = cur;
+		cur = ll->head; // cur을 링크드 리스트의 헤드 노드를 가리키도록 변경
+		ll->head = malloc(sizeof(ListNode)); // ListNode구조체 하나가 들어갈 크기의 빈공간 확보 후 확보한 공간의 시작수조 반환
+		ll->head->item = value; // 새 노드에 값 채우기
+		ll->head->next = cur; // 새 노드의 next를 head로 연결
 		ll->size++;
 		return 0;
 	}
@@ -222,7 +236,8 @@ int insertNode(LinkedList *ll, int index, int value){
 
 	// Find the nodes before and at the target position
 	// Create a new node and reconnect the links
-	if ((pre = findNode(ll, index - 1)) != NULL){
+	// 특정위치에 새 값 삽입
+	if ((pre = findNode(ll, index - 1)) != NULL){ // 인덱스 위치가 현재 링크드 리스트 크기보다 큰지 확인, pre에 index-1위치의 노드 담음
 		cur = pre->next;
 		pre->next = malloc(sizeof(ListNode));
 		pre->next->item = value;
