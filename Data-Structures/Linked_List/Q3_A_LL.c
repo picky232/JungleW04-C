@@ -86,7 +86,63 @@ int main()
 
 void moveOddItemsToBack(LinkedList *ll)
 {
-	/* add your code here */
+	//뻘짓 - 찾아서 기준점 앞에다가 하나씩 넣으려고함 
+	// ListNode *ptr, *ptr_prev, *cur, *prev;
+	// ptr_prev = NULL, prev = NULL; // 기준점 노드의 이전 노드, 현재 노드의 이전 노드
+	// ptr = ll->head; // 기준점이 되는 노드
+	// cur = ll->head; // 순회용 현재 노드
+	// if(ptr==NULL || cur==NULL){ // 링크드 리스트안이 비었을 경우 - 예외처리1
+	// 	return;
+	// }
+	// while (ptr!=NULL) // 기준점 노드 구하기 기준노드의 Item이 홀수면 중단 / 짝수면 계속 반복
+	// {
+	// 	if(ptr->item%2==1){
+	// 		break;
+	// 	}
+	// 	ptr_prev = ptr;
+	// 	ptr = ptr->next;
+	// }
+	// if(ptr!=NULL && ptr->item%2==0){
+	// 	return;
+	// }
+	// while (cur!=NULL)
+	// {
+	// 	if(cur->item%2==0){ // 순서 변경 로직 - 현재 노드의 item이 짝수이면
+	// 		if(ptr_prev==NULL){ // 기준점이 맨앞
+	// 			prev->next = cur->next; // cur의 이전노드를 cur 다음 노드로 연결
+	// 			cur->next = ptr; // cur의 next 포인터를 기준 노드 주소로 변경
+	// 			ll->head = cur; // 헤더 변경
+	// 			ptr_prev = cur; // 기준 노드의 이전노드 변경(추가했으니까)
+	// 			cur = ptr; // 현재노드를 기준점으로 이동(기준점앞으로 이동했으니까 기준점 뒤부터 확인하도록)
+	// 		}else{ // 기준점이 맨앞이 아님
+	// 			prev->next = cur->next; // cur 이전 노드를 cur 다음노드랑 연결
+	// 			cur->next = ptr; // cur의 포인터를 기준노드로 변경
+	// 			ptr_prev->next = cur; // 기준노드의 이전노드의 포인터를 현재노드로 변경
+	// 			cur = ptr; // 현재 노드를 기준점으로 이동
+	// 		}
+	// 	}
+	// 	prev = cur;
+	// 	cur = cur->next;
+	// 	/* code */
+	// }
+	// return ;
+
+	// 함수 사용으로 구현하기
+	ListNode *cur, *next;
+	cur = ll->head;
+	int idx = 0;
+	while (cur!=NULL)
+	{
+		next = cur->next;
+		if(cur->item%2==1){
+			// 홀수면 맨뒤에 삽입 (삭제, 삽입 함수 사용)
+			insertNode(ll, ll->size, cur->item);
+			removeNode(ll, idx);
+		}
+		cur = next;
+		idx++;
+	}
+	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -193,7 +249,6 @@ int removeNode(LinkedList *ll, int index){
 		free(ll->head);
 		ll->head = cur;
 		ll->size--;
-
 		return 0;
 	}
 

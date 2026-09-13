@@ -153,7 +153,7 @@ void removeAllItems(LinkedList *ll)
 }
 
 
-ListNode *findNode(LinkedList *ll, int index){
+ListNode *findNode(LinkedList *ll, int index){ // 
 
 	ListNode *temp;
 
