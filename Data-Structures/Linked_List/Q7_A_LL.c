@@ -85,23 +85,36 @@ int main()
 
 ////////////////////////////////////////////////////////////////////////
 
-void RecursiveReverse(ListNode **ptrHead)
-{
-	ListNode *newHead=NULL, *cur;
+// void RecursiveReverse(ListNode **ptrHead)
+// {
+// 	ListNode *newHead=NULL, *cur;
+// 	cur = *ptrHead;
+// 	while (cur!=NULL)
+// 	{
+// 		ListNode *next_node = cur->next;
+// 		cur->next = NULL;
+// 		if(newHead==NULL){
+// 			newHead = cur;
+// 		}else{
+// 			cur->next = newHead;
+// 			newHead = cur;
+// 		}
+// 		cur = next_node;
+// 	}
+// 	*ptrHead = newHead;
+// }
+void RecursiveReverse(ListNode **ptrHead){
+	ListNode *cur, *rest;
 	cur = *ptrHead;
-	while (cur!=NULL)
-	{
-		ListNode *next_node = cur->next;
-		cur->next = NULL;
-		if(newHead==NULL){
-			newHead = cur;
-		}else{
-			cur->next = newHead;
-			newHead = cur;
-		}
-		cur = next_node;
+	if(cur==NULL || cur->next==NULL){ // 링크드리스트가 비었거나, 다음 노드가 없을때 - 기저 조건
+		return;
 	}
-	*ptrHead = newHead;
+	rest = cur->next; // 다음노드 확인
+	RecursiveReverse(&rest); // **ptrHead로 주소가담긴 주소공간을 가리키기때문에 &를 써야함
+
+	cur->next->next = cur; // 거꾸로 보내는 로직 시작. cur은 마지막에서 1개전 노드임 cur->next는 마지막 노드, 마지막노드를 기준으로 이전노드를 넣어주면 됨. cur->next->next는 NULL인 상태에서 cur이 들어감으로 3->4 일때 3->4->3이 됨
+	*ptrHead = rest;
+	cur->next = NULL;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
