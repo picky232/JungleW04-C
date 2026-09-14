@@ -116,12 +116,42 @@ int main()
 
 void createQueueFromLinkedList(LinkedList *ll, Queue *q)
 {
-	/* add your code here */
+	ListNode *cur;
+	cur = ll->head;
+	while (q->ll.head!=NULL)
+	{
+		dequeue(q);
+	}
+	
+	while (cur!=NULL)
+	{
+		enqueue(q, cur->item);
+		cur=cur->next;
+	}
+	
 }
 
 void removeOddValues(Queue *q)
 {
-	/* add your code here */
+	ListNode *cur, *next_node, *prev=NULL;
+	cur = q->ll.head;
+	while (cur!=NULL)
+	{
+		next_node = cur->next;
+		if(cur->item%2==1){
+			if(prev==NULL){
+				q->ll.head = cur->next;
+			}else{
+				prev->next = cur->next;
+			}
+			q->ll.size--;
+			free(cur);
+		}else{
+			prev = cur;
+		}
+		cur = next_node;
+	}
+	
 }
 
 //////////////////////////////////////////////////////////////////////////////////

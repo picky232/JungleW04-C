@@ -112,9 +112,10 @@ void RecursiveReverse(ListNode **ptrHead){
 	rest = cur->next; // 다음노드 확인
 	RecursiveReverse(&rest); // **ptrHead로 주소가담긴 주소공간을 가리키기때문에 &를 써야함
 
-	cur->next->next = cur; // 거꾸로 보내는 로직 시작. cur은 마지막에서 1개전 노드임 cur->next는 마지막 노드, 마지막노드를 기준으로 이전노드를 넣어주면 됨. cur->next->next는 NULL인 상태에서 cur이 들어감으로 3->4 일때 3->4->3이 됨
-	*ptrHead = rest;
-	cur->next = NULL;
+	cur->next->next = cur; // 거꾸로 보내는 로직 시작. cur은 처음시작시 마지막노드의 이전노드임. cur->next는 마지막 노드, 마지막노드를 기준으로 이전노드를 넣어주면 됨. cur->next->next는 NULL인 상태에서 cur이 들어감으로 3->4 일때 4->3이 됨 단 cur->next의 링크를 안끊어주면 사이클이 생김
+	*ptrHead = rest; // 헤드 
+	cur->next = NULL; // 사이클 안생기게 끊어주기
+	// 함수가 끝나고 다시 돌아가면 cur은 다음 tail이될 노드를 가리킴으로 재귀함수로 reverse를 구현가능
 }
 
 //////////////////////////////////////////////////////////////////////////////////
