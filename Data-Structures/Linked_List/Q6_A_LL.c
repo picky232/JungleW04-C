@@ -86,9 +86,34 @@ int main()
 
 ////////////////////////////////////////////////////////////////////////
 
-int moveMaxToFront(ListNode **ptrHead)
+int moveMaxToFront(ListNode **ptrHead) // ll.head는 포인터인데 이 포인터를 가리키는 포인터가 ptrhead임
 {
-    /* add your code here */
+    ListNode *cur = *ptrHead; // 순회할 노드를 head로 지정
+	ListNode *max_prev=NULL, *max_Node, *prev; // 순회할 노드의prev 이전노드, max_prev 가장 큰 값을 가진 노드의 이전노드, max_node 가장 큰 값을 가진 노드
+	if(cur==NULL){ // 링크드 리스트가 비었을때
+		return 0;
+	}
+	max_Node=cur; // 초기값은 ll의 head값
+	prev = cur; // cur의 이전값을 cur로(이유는 밑에 cur을 맨앞에 한칸 뒤에 값으로 지정) - max_node에 이미 맨 앞값을 넣어놨기때문에 똑같은걸 비교할 필요없음
+	cur = cur->next; // cur을 다음 노드로 변경
+	while (cur!=NULL)
+	{
+		ListNode *next_node = cur->next; // 다음노드 미리 지정
+		if(max_Node->item < cur->item){ // max_node의 값보다 현재 노드의 값이 더 크면
+			max_prev = prev; // max_prev 갱신
+			max_Node = cur; // max_node 갱신
+		}
+		prev = cur; // 이전 노드 갱신
+		cur = next_node; // 현재 노드 갱신
+	} 
+	if(max_prev==NULL){ // max_Node가 이미 맨앞이면 
+		return 0;
+	}
+	// max노드를 맨 앞으로 이동
+	max_prev->next = max_Node->next; 
+	max_Node->next = *ptrHead;
+	*ptrHead = max_Node; // 헤드 변경
+	return 1;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
