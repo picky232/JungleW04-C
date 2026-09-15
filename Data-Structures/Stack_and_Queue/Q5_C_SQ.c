@@ -109,7 +109,12 @@ int main()
 
 void recursiveReverse(Queue *q)
 {
-	
+	int len =q->ll.size;
+	int items[len];
+	for(int i=0; i<len; i++){
+		items[i] = dequeue(q);
+	}
+	for(int i=len-1; i>=0; i--) enqueue(q, items[i]);
 }
 
 //////////////////////////////////////////////////////////////////
