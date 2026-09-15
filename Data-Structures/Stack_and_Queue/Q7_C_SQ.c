@@ -71,8 +71,8 @@ int main()
 	printf("2: Check whether expressions comprised of the characters ()[]{} is balanced:\n");
 	printf("0: Quit:\n");
 
-
-	while (c != 0)
+	int m= 0;
+	while (c != 0||i<10)
 	{
 		printf("Please input your choice(1/2/0): ");
 		scanf("%d", &c);
@@ -95,7 +95,7 @@ int main()
 			printf("Choice unknown;\n");
 			break;
 		}
-
+		m++;
 	}
 
 	return 0;
@@ -104,7 +104,28 @@ int main()
 ////////////////////////////////////////////////////////////
 int balanced(char *expression)
 {
-/* add your code here */
+	Stack p;
+	p.ll.head = NULL;
+	p.ll.size = 0;
+	int idx = 0;
+	while (expression[idx])
+	{
+		char c = expression[idx];
+		if(c=='('||c=='['||c=='{'){
+			push(&p, c);
+		}else if(c==')'||c==']'||c=='}'){
+			if(p.ll.size == 0){
+				return 1;
+			}
+			if((p.ll.head->item=='(' && c==')')||(p.ll.head->item=='['&& c==']')||(p.ll.head->item=='{'&& c=='}')){
+				pop(&p);
+			}else{
+				return 1;
+			}
+		}
+		idx++;
+	}
+	return p.ll.size!=0;
 }
 
 ////////////////////////////////////////////////////////////
