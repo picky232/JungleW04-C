@@ -97,13 +97,14 @@ int main()
 int maxHeight(BTNode *node)
 
 {
-    int result = 0;
-    if(node==NULL) return -1;
-    int l=0, r=0;
-    l = maxHeight(node->left)+1;
-    r = maxHeight(node->right)+1;
-    result += l>=r ? l : r;
-    return result;
+    int result = 0; // 초기화
+    if(node==NULL) return -1; // 노드가 NULL이면 -1 반환
+    int l=0, r=0; // 초기화
+    // DFS
+    l = maxHeight(node->left)+1; // 재귀 순회후 재귀 끝나면 +1 더해서 올라가면서 높이가 올라감
+    r = maxHeight(node->right)+1; // 동일
+    result += l>=r ? l : r; // 삼항 연산자 l>=r 이면 l 아니면 r을 result에 더함
+    return result; // 반환, 이거 안하면 l, r값이 제대로 안들어옴
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
