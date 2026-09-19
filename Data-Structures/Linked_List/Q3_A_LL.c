@@ -286,3 +286,44 @@ int removeNode(LinkedList *ll, int index){
 
 	return -1;
 }
+
+
+
+void moveOddItemsToBack(LinkedList *ll)
+{
+	ListNode *prev, *cpt, *cur, *temp, *cpt_prev;
+	if(ll->head==NULL){
+		return;
+	}
+	cur = ll->head; // 현재노드
+	prev = NULL; // 현재 노드에서 이전위치
+	cpt = cur; // 가장 앞에 있는 홀수
+	cpt_prev = NULL;
+	int cpt_idx = 0, idx = 0;
+	while (cur != NULL)
+	{
+		if(cpt->item%2==0){ // 맨앞 홀수 노드 포인터 홀수면 고정
+			cpt_prev = cpt;
+			cpt = cpt->next;
+			cpt_idx++;
+		}
+		if(cur->item%2==0 && cpt_idx<idx){
+			if(cpt_idx==0){ // 맨앞노드에 앞에 추가
+				prev->next = cur->next; // 헤드의 next를 현재노드의 next로 바꿈, 어짜피 붙어있는 첫번째 두번째 노드를 바꾸나, 떨어져있는 첫번째 세번째 노드를 바꾸나 똑같음.
+				cur->next = cpt;
+				ll->head = cur;
+				cpt_idx++;
+			}else{ // 중간에 포인터, 중간에 현재 노드 변경
+				prev = cur->next; // 현재 노드의 이전노드의 next포인터 주소를 현재 노드의 포인터 주소로 변경
+				cur->next = cpt; // 현재 노드의 next포인터 주소를 cpt로 변경
+				cpt_prev->next = cur; // 기준인 ptr의 이전노드의 next포인터 주소를 현재 노드로 변경
+			}
+		}
+		
+		idx++;
+		prev = cur; // 현재 노드의 이전
+		cur = cur->next; // 다음 노드의 주소 저장
+		/* code */
+	}
+	return;
+}
